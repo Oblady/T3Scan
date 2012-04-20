@@ -1,0 +1,20 @@
+--------
+T3scan v1 by Adrien LUCAS - Sponsored by Oblady
+--------
+
+Data :
+--------
+t3_extensions.csv generated on April 13rd 2012
+t3_extensions_fingerprints.ini generated on April 13rd 2012
+--------
+
+Regenerate :
+--------
+o For t3_fingerprints.csv :
+    $ t3scan/data/gen_t3_ext_list.php
+o For t3_extensions.csv :
+    $ t3scan/data/gen_t3_ext_list.php
+o For t3_entensions_fingerprints.ini
+    $ t3scan/data/gen_t3_ext_fingerprints.php
+--------
+

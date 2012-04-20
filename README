@@ -1,0 +1,21 @@
+--------
+T3scan v1 by Adrien LUCAS - Sponsored by Oblady
+--------
+
+T3Scan is an analyse tool designed for gathering informations of a website running the TYPO3 CMS.
+
+Features :
+--------
+    o TYPO3 version detection.
+    o TYPO3 version hard detection (by fingerprints).
+    o Look for listable directories.
+    o Extensions enumaration.
+    o Test if extensions are outdated.
+--------
+
+Contacts :
+--------
+Comments? Bugs? Requests?
+    o Author : Adrien LUCAS <adrien@oblady.fr>
+    o Company : Oblady <contact@oblady.fr>
+--------
