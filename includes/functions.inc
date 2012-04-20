@@ -15,31 +15,6 @@ function t3scan_matchVersionInChangelog($html){
 	return isset($versionMatch[1]) ? $versionMatch[1] : FALSE;
 }
 
-function _deprecated_t3scan_matchVersionsByFingerprints($versionsums){
-	global $_target, $_ctx;
-	static $remoteSums = array();
-	
-	$versions = array();
-	
-	foreach($versionsums as $ver => $sums){
-		$match = TRUE;
-		foreach($sums as $f => $s){ // file => md5sum
-			if(!isset($remoteSums[$f])){
-				$content = @file_get_contents($_target . $f, FALSE, $_ctx);
-				if($content)
-					$content = md5($content);
-				$remoteSums[$f] = $content;
-			}
-			if($match && $s !== FALSE && $remoteSums[$f] !== FALSE){
-				if($s !== $remoteSums[$f])
-					$match = FALSE;
-			}
-		}
-		if($match) $versions[] = $ver;
-	}
-	return $versions;
-}
-
 function t3scan_matchVersionsByFingerprints($target, $prints, &$reqCount=0){
 	
 	$versionsFilter = array();
