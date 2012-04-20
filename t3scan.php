@@ -6,7 +6,7 @@ $rootDir = dirname(__FILE__);
 chdir($rootDir);
 set_include_path($rootDir.'/includes' .PATH_SEPARATOR. get_include_path());
 
-include('../CommandLineLibrary/cll.inc');
+include('CommandLineLibrary/cll.inc');
 
 //Application init
 include('functions.inc');
@@ -23,7 +23,7 @@ $target = rtrim($target, '/').'/';
 $lvl = (int) $io->getUp('investigate', 'i');
 $_proxy = $io->getUp('proxy', 'p');
 $_forceCheck = $io->getUp('force', 'f');
-var_dump($_forceCheck);
+
 //Here we go :
 //Meta tags analyse
 $homepage = t3scan_httpget($target);
@@ -49,7 +49,7 @@ if($ver){
 }
 
 //Listable directories
-$directories = array('fileadmin/', 'typo3temp/', 'uploads/', 'typo3conf/', 'typo3conf/ext/');
+$directories = array('fileadmin/', 'typo3temp/', 'uploads/', 'typo3conf/', 'typo3conf/ext/', 'typo3_src');
 foreach(array_keys($directories) as $dirKey){
     $code = 0;
     $r = t3scan_httpget($target.$directories[$dirKey]);
@@ -113,13 +113,13 @@ if($lvl > 1) {
                     $c = 0;
                     $r = t3scan_matchVersionsByFingerprints($target.'typo3conf/ext/'.$extkey, $ext_prints[$extkey], $c);
                     if($r === 1) {
-                        $io->tell('    o Up-to-date ('.$c.' fingerprint checks).');
+                        $io->tell('    o Seems to be up-to-date ('.$c.' fingerprint checks).');
                     } elseif(is_array($r)) {
-                        $io->tell('    o Outdated ('.$c.' fingerprint checks).');
+                        $io->tell('    o Seems to be outdated ('.$c.' fingerprint checks).');
                     } elseif($r === false){
-                        $io->tell('    o Not installed ('.$c.' checks returned 404).');
+                        $io->tell('    o Seems not to be installed (100% of '.$c.' check(s) returned 404).');
                     } elseif ($_forceCheck) {
-                        $io->tell('    o Is installed.');
+                        $io->tell('    o Seems to be installed (at least one static file found).');
                     }
                 } elseif(!$_forceCheck) {
                     $io->tell('    o No fingerprints for this extension, can\'t check version.');
