@@ -111,15 +111,15 @@ if($lvl > 1) {
                 }
                 if(isset($ext_prints[$extkey])) {
                     $c = 0;
-                    $r = t3scan_matchVersionsByFingerprints($target.'typo3conf/ext/'.$extkey, $ext_prints[$extkey], $c);
-                    if($r === 1) {
+                    $r = t3scan_matchVersionsByFingerprints($target.'typo3conf/ext/'.$extkey, array_flip($ext_prints[$extkey]), $c);
+                    if($r === '1') {
                         $io->tell('    o Seems to be up-to-date ('.$c.' fingerprint checks).');
-                    } elseif(is_array($r)) {
-                        $io->tell('    o Seems to be outdated ('.$c.' fingerprint checks).');
                     } elseif($r === false){
-                        $io->tell('    o Seems not to be installed (100% of '.$c.' check(s) returned 404).');
+                        $io->tell('    o Seems to be not installed (100% of '.$c.' check(s) returned 404).');
                     } elseif ($_forceCheck) {
                         $io->tell('    o Seems to be installed (at least one static file found).');
+                    } elseif($r === true) {
+                        $io->tell('    o Seems to be outdated ('.$c.' fingerprint checks).');
                     }
                 } elseif(!$_forceCheck) {
                     $io->tell('    o No fingerprints for this extension, can\'t check version.');

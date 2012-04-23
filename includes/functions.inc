@@ -21,13 +21,12 @@ function t3scan_matchVersionsByFingerprints($target, $prints, &$reqCount=0){
 	$fileFound = false;
 	
 	do{
-		
 		//Sort by diff factors
 		$diffFactors = array();
 		foreach(array_keys($prints) as $f){
 			$hashes = $prints[$f];
 			if(!is_array($hashes)) {
-				$hashes = array($hashes=>'1');
+				$hashes = array($hashes=>array('1'));
 			}
 			if($diff = t3scan_calcFingerprintsDiffFactor($hashes, $versionsFilter)){
 				$diffFactors[$f] = $diff;
@@ -44,19 +43,20 @@ function t3scan_matchVersionsByFingerprints($target, $prints, &$reqCount=0){
 			
 			$code = 0;
 			if(($content = t3scan_httpget($target.$f, $code)) && isset($prints[$f][md5($content)])){
-				if($code != 404) {
-					$fileFound = true;
-				}
+				
 				if(sizeof($prints[$f][md5($content)]) == 1) {
 					$foundVersion = array_shift($prints[$f][md5($content)]);
 				} else {
 					$versionsFilter = $prints[$f][md5($content)];
 				}
 			};
+			if($code != 404) {
+				$fileFound = true;
+			}
 			unset($prints[$f]);
 		}
 		
-	}while(!isset($foundVersion) && !empty($diffFactors));
+	} while(!isset($foundVersion) && !empty($diffFactors));
 	
 	return (isset($foundVersion) ? $foundVersion : (empty($versionsFilter) ? $fileFound : $versionsFilter));
 }
